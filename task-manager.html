@@ -1,0 +1,222 @@
+<!DOCTYPE HTML><html><head><title>CLM Task Manager Service REST</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/raml2html/raml2html 7.8.0"><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script><script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+  $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+
+  $('[data-toggle]').click(function() {
+    var selector = $(this).data('target') + ' pre code';
+    $(selector).each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+  });
+
+  // open modal on hashes like #_action_get
+  $(window).bind('hashchange', function(e) {
+    var anchor_id = document.location.hash.substr(1); //strip #
+    var element = $('#' + anchor_id);
+
+    // do we have such element + is it a modal?  --> show it
+    if (element.length && element.hasClass('modal')) {
+      element.modal('show');
+    }
+  });
+
+  // execute hashchange on first page load
+  $(window).trigger('hashchange');
+
+  // remove url fragment on modal hide
+  $('.modal').on('hidden.bs.modal', function() {
+    try {
+      if (history && history.replaceState) {
+          history.replaceState({}, '', '#');
+      }
+    } catch(e) {}
+  });
+});
+    </script><style>
+      .hljs {
+  background: transparent;
+}
+.parent {
+  color: #999;
+}
+.list-group-item > .badge {
+  float: none;
+  margin-right: 6px;
+}
+.panel-title > .methods {
+  float: right;
+}
+.badge {
+  border-radius: 0;
+  text-transform: uppercase;
+  width: 70px;
+  font-weight: normal;
+  color: #f3f3f6;
+  line-height: normal;
+}
+.badge_get {
+  background-color: #63a8e2;
+}
+.badge_post {
+  background-color: #6cbd7d;
+}
+.badge_put {
+  background-color: #22bac4;
+}
+.badge_delete {
+  background-color: #d26460;
+}
+.badge_patch {
+  background-color: #ccc444;
+}
+.list-group,
+.panel-group {
+  margin-bottom: 0;
+}
+.panel-group .panel+.panel-white {
+  margin-top: 0;
+}
+.panel-group .panel-white {
+  border-bottom: 1px solid #F5F5F5;
+  border-radius: 0;
+}
+.panel-white:last-child {
+  border-bottom-color: white;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.panel-white .panel-heading {
+  background: white;
+}
+.tab-pane ul {
+  padding-left: 2em;
+}
+.tab-pane h1 {
+  font-size: 1.3em;
+}
+.tab-pane h2 {
+  font-size: 1.2em;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+}
+.tab-pane h3 {
+  font-size: 1.1em;
+}
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+#sidebar {
+  margin-top: 30px;
+  padding-right: 5px;
+  overflow: auto;
+  height: 90%;
+}
+.top-resource-description {
+  border-bottom: 1px solid #ddd;
+  background: #fcfcfc;
+  padding: 15px 15px 0 15px;
+  margin: -15px -15px 10px -15px;
+}
+.resource-description {
+  border-bottom: 1px solid #fcfcfc;
+  background: #fcfcfc;
+  padding: 15px 15px 0 15px;
+  margin: -15px -15px 10px -15px;
+}
+.resource-description p:last-child {
+  margin: 0;
+}
+.list-group .badge {
+  float: left;
+}
+.method_description {
+  margin-left: 85px;
+}
+.method_description p:last-child {
+  margin: 0;
+}
+.list-group-item {
+  cursor: pointer;
+}
+.list-group-item:hover {
+  background-color: #f5f5f5;
+}
+pre code {
+  overflow: auto;
+  word-wrap: normal;
+  white-space: pre;
+}
+.items {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+}
+.examples {
+  margin-left: 0.5em;
+}
+.resource-modal li > ul {
+  margin-bottom: 1em;
+}
+.required {
+  color: #f00;
+}
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>CLM Task Manager Service REST</h1><p>Base URL: https://{host}:{port}/tasks</p><ul><li><strong>host</strong>: <em><span class="required">required</span>(string)</em></li><li><strong>port</strong>: <em><span class="required">required</span>(number)</em></li></ul><h3 id="task_manager_service_description"><a href="#task_manager_service_description">Task manager service description</a></h3><p>Service used to manage tasks, i.e create new tasks, start them on-demand &amp; retrieve their statuses</p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="tasks_tasksdata" class="panel-title">/tasks/tasksData</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks_tasksdata"><span class="parent"></span>/tasks/tasksData</a> <span class="methods"><a href="#tasks_tasksdata_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_tasks_tasksdata" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks_tasksdata_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the collection of existing tasks</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks_tasksdata_get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/tasks/tasksData</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the collection of existing tasks</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks_tasksdata_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks_tasksdata_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: any</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>[
+  {
+      "name": "Import Compteur",
+      "status": "W",
+      "taskId": 1002
+  },
+  {
+      "name": "Import Compteur",
+      "status": "E",
+      "taskId": 1012
+  },
+  {
+      "name": "testRTA",
+      "status": "I",
+      "taskId": 3191
+  }
+</code></pre></div></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks_tasksdata_starttask"><span class="parent">/tasks/tasksData</span>/startTask</a> <span class="methods"><a href="#tasks_tasksdata_starttask_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_tasks_tasksdata_starttask" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks_tasksdata_starttask_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Start a task given a TaskConfigData, launch it asynchronously and returns the ID of the created Task</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks_tasksdata_starttask_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/tasks/tasksData</span>/startTask</h4></div><div class="modal-body"><div class="alert alert-info"><p>Start a task given a TaskConfigData, launch it asynchronously and returns the ID of the created Task</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks_tasksdata_starttask_post_request" data-toggle="tab">Request</a></li><li><a href="#tasks_tasksdata_starttask_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks_tasksdata_starttask_post_request"><h3>Body</h3><p><strong>Media type</strong>: multipart/form-data</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>taskType</strong>: <em><span class="required">required</span>(string)</em><p>Task type. Dictionnary TASK_TYPES</p></li><li><strong>ejbJNDI</strong>: <em><span class="required">required</span>(string)</em><p>JNDI of object in charge of execution</p></li><li><strong>ejbMethod</strong>: <em><span class="required">required</span>(string)</em><p>Java method executed by the task</p></li><li><strong>name</strong>: <em>(string)</em><p>Name of the task to create</p></li></ul></div><div class="tab-pane" id="tasks_tasksdata_starttask_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: any</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "taskId": "157"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>VALIDATION_ERROR - Constraint violations (required fields cannot be null)</p><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>INTERNAL_ERROR - An internal error occured while trying to create the task</p></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks_tasksdata__taskdataid_"><span class="parent">/tasks/tasksData</span>/{taskDataId}</a> <span class="methods"><a href="#tasks_tasksdata__taskdataid__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_tasks_tasksdata__taskdataid_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks_tasksdata__taskdataid__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the description of a specific taskData</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks_tasksdata__taskdataid__get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/tasks/tasksData</span>/{taskDataId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the description of a specific taskData</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks_tasksdata__taskdataid__get_request" data-toggle="tab">Request</a></li><li><a href="#tasks_tasksdata__taskdataid__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks_tasksdata__taskdataid__get_request"><h3>URI Parameters</h3><ul><li><strong>taskDataId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks_tasksdata__taskdataid__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: any</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+    "ejbJNDI": "java:app/clm-common-ejb/com.comarch.clm.common.batches.ejb.ImportProcessor!com.comarch.clm.common.batches.ejb.interfaces.ImportProcessorLocal",
+    "ejbMethod": "startImportTask",
+    "endDate": "2021-01-21T21:03:32Z",
+    "name": "Import Compteur",
+    "startDate": "2021-01-21T21:03:32Z",
+    "status": "W",
+    "taskId": 1002,
+    "type": "IMP"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskDataId} not found</p></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks_tasksdata__taskdataid__getstatus"><span class="parent">/tasks/tasksData/{taskDataId}</span>/getStatus</a> <span class="methods"><a href="#tasks_tasksdata__taskdataid__getstatus_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_tasks_tasksdata__taskdataid__getstatus" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks_tasksdata__taskdataid__getstatus_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve a task data status given its ID</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks_tasksdata__taskdataid__getstatus_get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/tasks/tasksData/{taskDataId}</span>/getStatus</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve a task data status given its ID</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks_tasksdata__taskdataid__getstatus_get_request" data-toggle="tab">Request</a></li><li><a href="#tasks_tasksdata__taskdataid__getstatus_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks_tasksdata__taskdataid__getstatus_get_request"><h3>URI Parameters</h3><ul><li><strong>taskDataId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks_tasksdata__taskdataid__getstatus_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: any</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "status": "I"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskDataId} not found</p></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="tasks" class="panel-title">/tasks</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks"><span class="parent"></span>/tasks</a> <span class="methods"><a href="#tasks_get"><span class="badge badge_get">get</span></a> <a href="#tasks_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_tasks" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Get the collection of existing tasks definitions</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#tasks_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new task definition, DEFAULT SCHEDULER IS NONE &amp; START THE TASK AT CREATION + ON DEMAND</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks_get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/tasks</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get the collection of existing tasks definitions</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: any</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>[
+  {
+      "description": "Compile report templates",
+      "id": 100,
+      "name": "Compile report templates",
+      "status": "A"
+  },
+  {
+      "id": 1001,
+      "name": "testRTA",
+      "status": "A"
+  },
+]
+</code></pre></div></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/tasks</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new task definition, DEFAULT SCHEDULER IS NONE &amp; START THE TASK AT CREATION + ON DEMAND</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks_post_request" data-toggle="tab">Request</a></li><li><a href="#tasks_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks_post_request"><h3>Body</h3><p><strong>Media type</strong>: multipart/form-data</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>taskType</strong>: <em><span class="required">required</span>(string)</em><p>Task type. Dictionnary TASK_TYPES</p></li><li><strong>ejbJNDI</strong>: <em><span class="required">required</span>(string)</em><p>JNDI of object in charge of execution</p></li><li><strong>ejbMethod</strong>: <em><span class="required">required</span>(string)</em><p>Java method executed by the task</p></li><li><strong>status</strong>: <em><span class="required">required</span>(string)</em><p>Status type. Dictionnary GENERAL_STATUSES (A/I)</p></li><li><strong>name</strong>: <em><span class="required">required</span>(string)</em><p>Name of the task to create</p></li><li><strong>scheduleMode</strong>: <em><span class="required">required</span>(string)</em><p>Schedule mode of the task (CronExpression, IntervalPeriod, ManualSetup, LastDayOfMonth)</p></li><li><strong>storeIdleTask</strong>: <em>(boolean)</em><p>Used to specify if you want to store idle task execution or not (default value is false)</p></li><li><strong>description</strong>: <em>(string)</em><p>Description of the task</p></li><li><strong>nextExecDate</strong>: <em>(string)</em><p>Next exec date (specific to ManualSetup)</p></li><li><strong>interval</strong>: <em>(string)</em><p>Interval of execution (specific to IntervalPeriod)</p></li><li><strong>intervalUnit</strong>: <em>(string)</em><p>Interval unit of execution (Day, Month... specific to IntervalPeriod)</p></li><li><strong>cronExpression</strong>: <em>(string)</em><p>CronExpression for the execution (specific to CronExpression)</p></li></ul></div><div class="tab-pane" id="tasks_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>Succesfully added a new task definition</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>URL of the newly created task definition</p></li></ul><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>List of error codes</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>BAD_SCHEDULE_MODE</strong>: <em>(string)</em><p>Tried to create a scheduled task without specifying a valid schedule mode</p></li><li><strong>NO_NEXT_EXEC_DATE</strong>: <em>(string)</em><p>Tried to create a ManualSetup scheduled task without specifying the nextExecDate field</p></li><li><strong>NO_INTERVAL_DEFINITION</strong>: <em>(string)</em><p>Tried to create a IntervalPeriod scheduled task without specifying either the interval or intervalUnit fields</p></li><li><strong>BAD_INTERVAL_UNIT</strong>: <em>(string)</em><p>Tried to create a IntervalPeriod scheduled task with a bad interval unit</p></li><li><strong>NO_CRON_EXPRESSION</strong>: <em>(string)</em><p>Tried to create a CronExpression scheduled task without specifying the cronExpression field</p></li><li><strong>VALIDATION_ERROR</strong>: <em>(string)</em><p>Constraint violations (required fields cannot be null)</p></li></ul><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>List of error codes</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>TASK_NOT_UNIQUE_NAME</strong>: <em>(string)</em><p>Tried to create a task with an already existing name</p></li><li><strong>INTERNAL_ERROR</strong>: <em>(string)</em><p>An internal error occured while trying to create the scheduled task</p></li></ul></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks__taskid_"><span class="parent">/tasks</span>/{taskId}</a> <span class="methods"><a href="#tasks__taskid__get"><span class="badge badge_get">get</span></a> <a href="#tasks__taskid__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_tasks__taskid_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks__taskid__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve a specific task</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#tasks__taskid__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Delete specific task</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks__taskid__get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/tasks</span>/{taskId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve a specific task</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks__taskid__get_request" data-toggle="tab">Request</a></li><li><a href="#tasks__taskid__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks__taskid__get_request"><h3>URI Parameters</h3><ul><li><strong>taskId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks__taskid__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Media type</strong>: type</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>taskType</strong>: <em>(string)</em><p>Task type. Dictionnary TASK_TYPES</p></li><li><strong>ejbJNDI</strong>: <em>(string)</em><p>JNDI of object in charge of execution</p></li><li><strong>ejbMethod</strong>: <em>(string)</em><p>Java method executed by the task</p></li><li><strong>status</strong>: <em>(string)</em><p>Status type. Dictionnary GENERAL_STATUSES (A/I)</p></li><li><strong>name</strong>: <em>(string)</em><p>Name of the task to create</p></li><li><strong>scheduleMode</strong>: <em>(string)</em><p>Schedule mode of the task (CronExpression, IntervalPeriod, ManualSetup, LastDayOfMonth)</p></li><li><strong>description</strong>: <em>(string)</em><p>Description of the task</p></li><li><strong>nextExecDate</strong>: <em>(string)</em><p>Next exec date (specific to ManualSetup)</p></li><li><strong>interval</strong>: <em>(string)</em><p>Interval of execution (specific to IntervalPeriod)</p></li><li><strong>intervalUnit</strong>: <em>(string)</em><p>Interval unit of execution (Day, Month... specific to IntervalPeriod)</p></li><li><strong>cronExpression</strong>: <em>(string)</em><p>CronExpression for the execution (specific to CronExpression)</p></li></ul><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskId} not found</p></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks__taskid__delete"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent">/tasks</span>/{taskId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Delete specific task</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks__taskid__delete_request" data-toggle="tab">Request</a></li><li><a href="#tasks__taskid__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks__taskid__delete_request"><h3>URI Parameters</h3><ul><li><strong>taskId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks__taskid__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Succesfully deleted task</p><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskId} not found</p><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>List of error codes</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>SCHEDULER_HAS_RUNNING_TASKS</strong>: <em>(string)</em><p>Wait to finish all tasks of scheduler {taskId}</p></li><li><strong>INTERNAL_ERROR</strong>: <em>(string)</em><p>An internal error occured while trying to delete the scheduled task</p></li></ul></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks__taskid__launch"><span class="parent">/tasks/{taskId}</span>/launch</a> <span class="methods"><a href="#tasks__taskid__launch_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_tasks__taskid__launch" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks__taskid__launch_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Launch a specific task</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks__taskid__launch_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/tasks/{taskId}</span>/launch</h4></div><div class="modal-body"><div class="alert alert-info"><p>Launch a specific task</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks__taskid__launch_post_request" data-toggle="tab">Request</a></li><li><a href="#tasks__taskid__launch_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks__taskid__launch_post_request"><h3>URI Parameters</h3><ul><li><strong>taskId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks__taskid__launch_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Succesfully launched the given task</p><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskId} not found</p><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>INTERNAL_ERROR - An internal error occured while trying to launch the scheduled task</p></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks__taskid__status"><span class="parent">/tasks/{taskId}</span>/status</a> <span class="methods"><a href="#tasks__taskid__status_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_tasks__taskid__status" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks__taskid__status_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve the status and the id of the last execution of a given task definition</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks__taskid__status_get"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/tasks/{taskId}</span>/status</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve the status and the id of the last execution of a given task definition</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks__taskid__status_get_request" data-toggle="tab">Request</a></li><li><a href="#tasks__taskid__status_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks__taskid__status_get_request"><h3>URI Parameters</h3><ul><li><strong>taskId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks__taskid__status_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Succesfully retrieved the status of the task</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: any</p><p><strong>Example</strong>:</p><div class="examples"><pre><code>{
+  "status": "I",
+  "taskId": "136203"
+}
+</code></pre></div><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskId} not found</p><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>List of error codes</p><h3>Body</h3><p><strong>Media type</strong>: application/json</p><p><strong>Type</strong>: object</p><strong>Properties</strong><ul><li><strong>NO_LAST_EXEC</strong>: <em>(string)</em><p>Couldn&#39;t find any execution of the task {taskId}</p></li><li><strong>INTERNAL_ERROR</strong>: <em>(string)</em><p>An internal error occured while trying to retrieve the status of the scheduled task</p></li></ul></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks__taskid__activate"><span class="parent">/tasks/{taskId}</span>/activate</a> <span class="methods"><a href="#tasks__taskid__activate_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_tasks__taskid__activate" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks__taskid__activate_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Change the status of the task to Active</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks__taskid__activate_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/tasks/{taskId}</span>/activate</h4></div><div class="modal-body"><div class="alert alert-info"><p>Change the status of the task to Active</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks__taskid__activate_post_request" data-toggle="tab">Request</a></li><li><a href="#tasks__taskid__activate_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks__taskid__activate_post_request"><h3>URI Parameters</h3><ul><li><strong>taskId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks__taskid__activate_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Succesfully activated the given task</p><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskId} not found</p><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>INTERNAL_ERROR - An internal error occured while trying to activate the scheduled task</p></div></div></div></div></div></div></div><div class="panel panel-white resource-modal"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_tasks__taskid__deactivate"><span class="parent">/tasks/{taskId}</span>/deactivate</a> <span class="methods"><a href="#tasks__taskid__deactivate_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_tasks__taskid__deactivate" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#tasks__taskid__deactivate_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Change the status of the task to Inactive</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="tasks__taskid__deactivate_post"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/tasks/{taskId}</span>/deactivate</h4></div><div class="modal-body"><div class="alert alert-info"><p>Change the status of the task to Inactive</p></div><ul class="nav nav-tabs"><li class="active"><a href="#tasks__taskid__deactivate_post_request" data-toggle="tab">Request</a></li><li><a href="#tasks__taskid__deactivate_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tasks__taskid__deactivate_post_request"><h3>URI Parameters</h3><ul><li><strong>taskId</strong>: <em><span class="required">required</span>(string)</em></li></ul></div><div class="tab-pane" id="tasks__taskid__deactivate_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Succesfully deactivated the given task</p><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>Resource with id {taskId} not found</p><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><p>INTERNAL_ERROR - An internal error occured while trying to deactivate the scheduled task</p></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#tasks_tasksdata">/tasks/tasksData</a></li><li><a href="#tasks">/tasks</a></li></ul></div></div></div></div></body></html>

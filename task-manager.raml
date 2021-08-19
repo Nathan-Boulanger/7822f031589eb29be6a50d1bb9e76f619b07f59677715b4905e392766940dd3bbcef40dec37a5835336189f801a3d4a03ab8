@@ -1,0 +1,391 @@
+#%RAML 1.0
+title: CLM Task Manager Service REST
+#description: Service used to manage tasks, i.e create new tasks, start them on-demand & retrieve their statuses
+baseUri:
+  value: "Base URL: https://{host}:{port}/tasks"
+baseUriParameters:
+  port:
+    type: number
+    #description: Port
+  host:
+    type: string
+    #description: Host
+documentation:
+  - title: Task manager service description
+    content: |
+      Service used to manage tasks, i.e create new tasks, start them on-demand & retrieve their statuses
+
+types:
+  taskRequest:
+    type: object
+    properties: 
+      id: 
+        type: number
+        description: Task unique id
+        required: true
+      type:
+        type: string
+        description: Task type
+        required: true
+  taskResponse:
+    type: object
+    properties: 
+      taskType: 
+        type: string
+        required: false
+        description: Task type. Dictionnary TASK_TYPES
+      ejbJNDI: 
+        type: string
+        required: false
+        description: JNDI of object in charge of execution
+      ejbMethod:
+        type: string
+        required: false
+        description: Java method executed by the task
+      status:
+        type: string
+        required: false
+        description: Status type. Dictionnary GENERAL_STATUSES (A/I)
+      name:
+        type: string
+        required: false
+        description: Name of the task to create
+      scheduleMode:
+        type: string
+        required: false
+        description: Schedule mode of the task (CronExpression, IntervalPeriod, ManualSetup, LastDayOfMonth)
+      description:
+        type: string
+        required: false
+        description: Description of the task
+      nextExecDate:
+        type: string
+        required: false
+        description: Next exec date (specific to ManualSetup)            
+      interval:
+        type: string
+        required: false
+        description: Interval of execution (specific to IntervalPeriod)
+      intervalUnit:
+        type: string
+        required: false
+        description: Interval unit of execution (Day, Month... specific to IntervalPeriod)
+      cronExpression:
+        type: string
+        required: false
+        description: CronExpression for the execution (specific to CronExpression)  
+  taskPut:
+    type: object
+    properties: 
+      type:
+        type: string
+        description: Task type
+        required: true
+
+
+/tasks/tasksData:
+  get:
+    description: Get the collection of existing tasks
+    responses: 
+      200:
+        body:
+          application/json:
+            example: |
+              [
+                {
+                    "name": "Import Compteur",
+                    "status": "W",
+                    "taskId": 1002
+                },
+                {
+                    "name": "Import Compteur",
+                    "status": "E",
+                    "taskId": 1012
+                },
+                {
+                    "name": "testRTA",
+                    "status": "I",
+                    "taskId": 3191
+                }
+            ]
+  /startTask:
+    post:
+      description: Start a task given a TaskConfigData, launch it asynchronously and returns the ID of the created Task
+      body:
+        multipart/form-data:
+          properties:
+            taskType: 
+              type: string
+              required: true
+              description: Task type. Dictionnary TASK_TYPES
+            ejbJNDI: 
+              type: string
+              required: true
+              description: JNDI of object in charge of execution
+            ejbMethod:
+              type: string
+              required: true
+              description: Java method executed by the task
+            name:
+              type: string
+              required: false
+              description: Name of the task to create
+      responses:
+        201:
+          body:
+            application/json:
+              example: |
+                {
+                  "taskId": "157"
+                }
+        400:
+          description: VALIDATION_ERROR - Constraint violations (required fields cannot be null)
+        500:
+          description: INTERNAL_ERROR - An internal error occured while trying to create the task
+  /{taskDataId}:
+    get:
+      description: Get the description of a specific taskData
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                    "ejbJNDI": "java:app/clm-common-ejb/com.comarch.clm.common.batches.ejb.ImportProcessor!com.comarch.clm.common.batches.ejb.interfaces.ImportProcessorLocal",
+                    "ejbMethod": "startImportTask",
+                    "endDate": "2021-01-21T21:03:32Z",
+                    "name": "Import Compteur",
+                    "startDate": "2021-01-21T21:03:32Z",
+                    "status": "W",
+                    "taskId": 1002,
+                    "type": "IMP"
+                }
+        404:
+          description: Resource with id {taskDataId} not found
+    /getStatus:
+      get:
+        description: Retrieve a task data status given its ID
+        responses:
+          200:
+            body:
+              application/json:
+                example: | 
+                  {
+                    "status": "I"
+                  }
+          404:
+            description: Resource with id {taskDataId} not found
+/tasks:
+  get:
+    description: Get the collection of existing tasks definitions
+    responses: 
+      200:
+        body:
+          application/json:
+            example: |
+              [
+                {
+                    "description": "Compile report templates",
+                    "id": 100,
+                    "name": "Compile report templates",
+                    "status": "A"
+                },
+                {
+                    "id": 1001,
+                    "name": "testRTA",
+                    "status": "A"
+                },
+              ]
+  post:
+    description: Create a new task definition, DEFAULT SCHEDULER IS NONE & START THE TASK AT CREATION + ON DEMAND
+    body:
+      multipart/form-data:
+        properties:
+          taskType: 
+            type: string
+            required: true
+            description: Task type. Dictionnary TASK_TYPES
+          ejbJNDI: 
+            type: string
+            required: true
+            description: JNDI of object in charge of execution
+          ejbMethod:
+            type: string
+            required: true
+            description: Java method executed by the task
+          status:
+            type: string
+            required: true
+            description: Status type. Dictionnary GENERAL_STATUSES (A/I)
+          name:
+            type: string
+            required: true
+            description: Name of the task to create
+          scheduleMode:
+            type: string
+            required: true
+            description: Schedule mode of the task (CronExpression, IntervalPeriod, ManualSetup, LastDayOfMonth)
+          storeIdleTask:
+            type: boolean
+            required: false
+            description: Used to specify if you want to store idle task execution or not (default value is false)
+          description:
+            type: string
+            required: false
+            description: Description of the task
+          nextExecDate:
+            type: string
+            required: false
+            description: Next exec date (specific to ManualSetup)            
+          interval:
+            type: string
+            required: false
+            description: Interval of execution (specific to IntervalPeriod)
+          intervalUnit:
+            type: string
+            required: false
+            description: Interval unit of execution (Day, Month... specific to IntervalPeriod)
+          cronExpression:
+            type: string
+            required: false
+            description: CronExpression for the execution (specific to CronExpression)      
+    responses: 
+      201:
+        description: Succesfully added a new task definition
+        headers: 
+          Location:
+            type: string
+            description: URL of the newly created task definition
+            required: false
+      400:
+        description: List of error codes
+        body:
+          application/json:
+            properties:
+              BAD_SCHEDULE_MODE:
+                type: string
+                required: false
+                description: Tried to create a scheduled task without specifying a valid schedule mode
+              NO_NEXT_EXEC_DATE: 
+                type: string
+                required: false
+                description: Tried to create a ManualSetup scheduled task without specifying the nextExecDate field
+              NO_INTERVAL_DEFINITION: 
+                type: string
+                required: false
+                description: Tried to create a IntervalPeriod scheduled task without specifying either the interval or intervalUnit fields
+              BAD_INTERVAL_UNIT:
+                type: string
+                required: false
+                description: Tried to create a IntervalPeriod scheduled task with a bad interval unit
+              NO_CRON_EXPRESSION:
+                type: string
+                required: false
+                description: Tried to create a CronExpression scheduled task without specifying the cronExpression field
+              VALIDATION_ERROR: 
+                type: string
+                required: false
+                description: Constraint violations (required fields cannot be null)
+      500:
+        description: List of error codes
+        body:
+          application/json:
+            properties:
+              TASK_NOT_UNIQUE_NAME:
+                type: string
+                required: false
+                description: Tried to create a task with an already existing name
+              INTERNAL_ERROR:
+                type: string
+                required: false
+                description: An internal error occured while trying to create the scheduled task
+  /{taskId}:
+    get:
+      description: Retrieve a specific task
+      responses:  
+        200:
+          body:
+            type: taskResponse        
+        404:
+          description: Resource with id {taskId} not found
+    delete:
+      description: Delete specific task
+      responses:               
+        200:
+          description: Succesfully deleted task
+        404:
+          description: Resource with id {taskId} not found
+        500:
+          description: List of error codes
+          body:
+            application/json:
+              properties:
+                SCHEDULER_HAS_RUNNING_TASKS:
+                  type: string
+                  required: false
+                  description: Wait to finish all tasks of scheduler {taskId} 
+                INTERNAL_ERROR:
+                  type: string
+                  required: false
+                  description: An internal error occured while trying to delete the scheduled task
+    /launch:
+      post:
+        description: Launch a specific task
+        responses:
+          200:
+            description: Succesfully launched the given task
+          404:
+            description: Resource with id {taskId} not found
+          500:
+            description: INTERNAL_ERROR - An internal error occured while trying to launch the scheduled task
+    /status:
+      get:
+        description: Retrieve the status and the id of the last execution of a given task definition
+        responses:
+          200:
+            description: Succesfully retrieved the status of the task
+            body:
+              application/json:
+                example: |
+                  {
+                    "status": "I",
+                    "taskId": "136203"
+                  }
+          500:
+            description: List of error codes
+            body:
+              application/json:
+                properties:
+                  NO_LAST_EXEC: 
+                    type: string
+                    required: false
+                    description: Couldn't find any execution of the task {taskId}
+                  INTERNAL_ERROR:
+                    type: string
+                    required: false
+                    description: An internal error occured while trying to retrieve the status of the scheduled task
+          404:
+            description: Resource with id {taskId} not found
+    /activate:
+      post:
+        description: Change the status of the task to Active
+        responses:
+          200:
+            description: Succesfully activated the given task
+          404:
+            description: Resource with id {taskId} not found
+          500:
+            description: INTERNAL_ERROR - An internal error occured while trying to activate the scheduled task
+    /deactivate:
+      post:
+        description: Change the status of the task to Inactive
+        responses:
+          200:
+            description: Succesfully deactivated the given task
+          404:
+            description: Resource with id {taskId} not found
+          500:
+            description: INTERNAL_ERROR - An internal error occured while trying to deactivate the scheduled task
+
+                  
+    
